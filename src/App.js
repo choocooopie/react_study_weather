@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { wait } from '@testing-library/user-event/dist/utils';
 
 // 1. 앱이 실행 되자마자 현재 위치 기반의 날씨가 보인다.
 // 2. 날씨 정보에는 도시, 섭씨, 화씨, 날씨 상태
@@ -14,7 +13,7 @@ function App() {
     navigator.geolocation.getCurrentPosition((position) => {
       let lat = position.coords.latitude;
       let lon = position.coords.longitude;
-      getWeatherByCurrentLocation(lat, lon);
+      getWeatherByCurrentLocation("현재 위치", let, lon);
     });
   }
 
