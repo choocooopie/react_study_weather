@@ -1,12 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import './App.css';
-
-// 1. 앱이 실행 되자마자 현재 위치 기반의 날씨가 보인다.
-// 2. 날씨 정보에는 도시, 섭씨, 화씨, 날씨 상태
-// 3. 5개의 버튼이 있다. (1개는 현재 위치, 4개는 다른 도시)
-// 4. 도시 버튼을 클릭할 때마다 도시별 날씨가 나온다.
-// 5. 현재 위치 버튼을 누르면 다시 현재 위치 기반의 날씨가 나온다.
-// 6. 데이터를 들고오는 동안 로딩 스피너가 된다.
 
 function App() {
   const getCurrentLocation = () => {
@@ -15,22 +8,29 @@ function App() {
       let lon = position.coords.longitude;
       getWeatherByCurrentLocation("현재 위치", lat, lon);
     });
-  }
+  };
 
-  const getWeatherByCurrentLocation = async(lat, lon) => {
-    let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=375c707608a269d1da6c1d8d8e7527ea`
-    let response = await fetch(url)
-    let data = await response.json();
-    console.log("data", data)
-  }
+  const getWeatherByCurrentLocation = async (city, lat, lon) => {
+    let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=375c707608a269d1da6c1d8d8e7527ea&units=metric`;
+    try {
+      let response = await fetch(url);
+      let data = await response.json();
+      console.log("data", data);
+    } catch (error) {
+      console.error("날씨 정보를 가져오는 데 실패했습니다:", error);
+    }
+  };
 
   useEffect(() => {
-    getCurrentLocation()
-  },[])
+    getCurrentLocation();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div>
-      
+      {/* 여기에 UI 요소들 들어갈 예정 */}
     </div>
   );
 }
+
 export default App;
