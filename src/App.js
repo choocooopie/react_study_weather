@@ -13,7 +13,7 @@ function App() {
     navigator.geolocation.getCurrentPosition((position) => {
       let lat = position.coords.latitude;
       let lon = position.coords.longitude;
-      getWeatherByCurrentLocation("현재 위치", let, lon);
+      getWeatherByCurrentLocation("현재 위치", lat, lon);
     });
   }
 
