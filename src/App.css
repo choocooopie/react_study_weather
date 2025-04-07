@@ -1,0 +1,25 @@
+body {
+    background: url(https://cdn.pixabay.com/photo/2018/10/10/10/59/sky-3736952_960_720.jpg);
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+.weather-box {
+    border: 3px solid white;
+    padding: 50px;
+    border-radius: 30px;
+    background-color: azure;
+}
+
+.app-background {
+    transition: background-image 0.5s ease-in-out;
+  }
