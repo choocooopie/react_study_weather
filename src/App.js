@@ -21,15 +21,16 @@ function App() {
       let lon = position.coords.longitude;
       getWeatherByCurrentLocation(lat, lon);
     });
-  }, []);
+  }, [getWeatherByCurrentLocation]);
+  
 
-  const getWeatherByCurrentLocation = async(lat, lon) => {
+  const getWeatherByCurrentLocation = useCallback(async(lat, lon) => {
     let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=375c707608a269d1da6c1d8d8e7527ea&units=metric`;
     let response = await fetch(url);
     let data = await response.json();
     setWeather(data);
     setBackgroundImage(data.name);
-  }
+  }, []);
 
   const getWeatherByCity = async (city) => {
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=375c707608a269d1da6c1d8d8e7527ea&units=metric`;
