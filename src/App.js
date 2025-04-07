@@ -13,76 +13,62 @@ import { WeatherButton } from './component/WeatherButton';
 
 function App() {
   const [weather, setWeather] = useState(null);
-  const [background, setBackground] = useState(''); // ✅ 이게 있어야 함
+  const [background, setBackground] = useState('');
 
-  const getCurrentLocation = () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      let lat = position.coords.latitude;
-      let lon = position.coords.longitude;
-      getWeatherByCurrentLocation(lat, lon);
-    });
-  }
+  const cityBackgrounds = {
+    Paris: 'https://cdn.pixabay.com/photo/2017/03/27/14/56/eiffel-tower-2178577_960_720.jpg',
+    'New York': 'https://cdn.pixabay.com/photo/2016/11/29/09/32/architecture-1868667_960_720.jpg',
+    default: 'https://cdn.pixabay.com/photo/2018/10/10/10/59/sky-3736952_960_720.jpg',
+  };
 
-  const getWeatherByCurrentLocation = async(lat, lon) => {
+  const setBackgroundImage = (cityName) => {
+    const formattedCity = cityName.toLowerCase();
+    if (formattedCity.includes('paris')) {
+      setBackground(cityBackgrounds.Paris);
+    } else if (formattedCity.includes('new york') || formattedCity.includes('new york city')) {
+      setBackground(cityBackgrounds['New York']);
+    } else {
+      setBackground(cityBackgrounds.default);
+    }
+  };
+
+  const getWeatherByCurrentLocation = async (lat, lon) => {
     let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=375c707608a269d1da6c1d8d8e7527ea&units=metric`;
     let response = await fetch(url);
     let data = await response.json();
     setWeather(data);
     setBackgroundImage(data.name);
-  }
+  };
+
+  const getCurrentLocation = useCallback(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      let lat = position.coords.latitude;
+      let lon = position.coords.longitude;
+      getWeatherByCurrentLocation(lat, lon);
+    });
+  }, []);
 
   const getWeatherByCity = async (city) => {
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=375c707608a269d1da6c1d8d8e7527ea&units=metric`;
     let response = await fetch(url);
     let data = await response.json();
     setWeather(data);
-    setBackgroundImage(city);
-  }
-
-  const setBackgroundImage = (city) => {
-    switch (city.toLowerCase()) {
-      case 'paris':
-        setBackground('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1470&q=80');
-        break;
-      case 'new york':
-      case 'new york city':
-        setBackground('https://images.unsplash.com/photo-1496588152823-86ff7695e68f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fCVFQiU4OSVCNCVFQyU5QSU5NSVFQyU4QiU5QyUyMCVFQiVCMCVCMCVFQSVCMiVCRCVFRCU5OSU5NCVFQiVBOSVCNHxlbnwwfHwwfHx8MA%3D%3D');
-        break;
-      case 'seoul':
-        setBackground('https://cdn.pixabay.com/photo/2022/09/16/17/07/city-7459162_640.jpg');
-        break;
-      case 'london':
-        setBackground('https://img.freepik.com/free-photo/big-ben-westminster-bridge-sunset-london-uk_268835-1395.jpg');
-        break;
-      default:
-        setBackground('https://cdn.pixabay.com/photo/2018/10/10/10/59/sky-3736952_960_720.jpg');
-        break;
-    }
-  }
+    setBackgroundImage(data.name);
+  };
 
   useEffect(() => {
     getCurrentLocation();
-  }, []);
+  }, [getCurrentLocation]);
 
   return (
-    <div 
-      className="app-background" 
-      style={{ 
-        backgroundImage: `url(${background})`,
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        height: '100vh'
-      }}
-    >
-      <div className='container'>
+    <div style={{ backgroundImage: `url(${background})` }} className="main-container">
+      <div className="container">
         <WeatherBox weather={weather} />
-        <WeatherButton 
-          getWeatherByCity={getWeatherByCity} 
-          getCurrentLocation={getCurrentLocation} 
-        />
+        <WeatherButton getWeatherByCity={getWeatherByCity} getCurrentLocation={getCurrentLocation} />
       </div>
     </div>
   );
 }
 
 export default App;
+
