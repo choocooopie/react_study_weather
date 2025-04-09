@@ -75,12 +75,18 @@ function App() {
       }}
     >
       <div className='container'>
-        <WeatherBox weather={weather} />
-        <WeatherButton 
-          getWeatherByCity={getWeatherByCity} 
-          getCurrentLocation={getCurrentLocation} 
-        />
-      </div>
+  <img 
+    src="https://img.icons8.com/fluent/512/weather.png" 
+    alt="weather icon" 
+    style={{ width: '100px', marginBottom: '20px' }}
+  />
+  <WeatherBox weather={weather} />
+  <WeatherButton 
+    getWeatherByCity={getWeatherByCity} 
+    getCurrentLocation={getCurrentLocation} 
+  />
+</div>
+
     </div>
   );
 }
