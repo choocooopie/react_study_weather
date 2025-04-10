@@ -31,3 +31,77 @@ body {
 .app-background {
     transition: background-image 0.5s ease-in-out;
   }
+
+  .weather-icon-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  
+  .weather-icon {
+    width: 100px;
+    z-index: 1;
+  }
+  
+  /* 해가 반짝이는 이펙트 */
+  .sunshine-effect .weather-icon {
+    animation: shine 2s infinite alternate;
+  }
+  
+  @keyframes shine {
+    from {
+      filter: brightness(1);
+    }
+    to {
+      filter: brightness(1.6);
+    }
+  }
+  
+  /* 구름이 끼는 이펙트 */
+  .cloudy-effect::after {
+    content: '';
+    position: absolute;
+    top: 320px;
+    left: 40%;
+    background-color: white;
+    width: 80px;
+    height: 50px;
+    background: url('https://img.icons8.com/ios-filled/100/000000/cloud.png') no-repeat center;
+    background-size: contain;
+    animation: cloudMove 6s infinite linear;
+    z-index: 2;
+    opacity: 0.7;
+  }
+  
+  @keyframes cloudMove {
+    0% { left: -20px; }
+    100% { left: 100px; }
+  }
+  
+  /* 비오는 이펙트 */
+  .rain-effect .rain {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    z-index: 2;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      transparent,
+      transparent 3px,
+      rgba(0, 0, 255, 0.4) 3px,
+      rgba(0, 0, 255, 0.4) 6px
+    );
+    animation: rainFall 0.5s linear infinite;
+  }
+  
+  @keyframes rainFall {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: 0 20px;
+    }
+  }
+  
